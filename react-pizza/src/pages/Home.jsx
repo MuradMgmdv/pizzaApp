@@ -13,10 +13,11 @@ function Home() {
       .then((json) => {
         setItems(json);
       });
+      window.scrollTo(0, 0)  // чтобы страница начиналась сверху, это для верстки
   }, []);
 
   return (
-    <>
+    <div className="container">
       <div className="content__top">
         <Categories />
 
@@ -35,7 +36,7 @@ function Home() {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
