@@ -1,13 +1,17 @@
 import React from "react";
+
+
 import { useEffect, useState } from "react";
 
 import Categories from "../components/Categories";
+import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
 import Sort from "../components/Sort";
 
 function Home({ searchValue }) {
   const [items, setItems] = useState([]);
   const [categoryId, setCategoryId] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [sortType, setSortType] = useState({
     name: "популярности",
     sortProperty: "rating",
@@ -20,14 +24,14 @@ function Home({ searchValue }) {
     const search = searchValue ? `&search=${searchValue}` : "";
 
     fetch(
-      `https:62f4c3c7535c0c50e761b9aa.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}${search}`
+      `https:62f4c3c7535c0c50e761b9aa.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
     )
       .then((res) => res.json())
       .then((json) => {
         setItems(json);
       });
     window.scrollTo(0, 0); // чтобы страница начиналась сверху, это для верстки
-  }, [categoryId, sortType, searchValue]);
+  }, [categoryId, sortType, searchValue, currentPage]);
 
   return (
     <div className="container">
@@ -52,6 +56,7 @@ function Home({ searchValue }) {
           />
         ))}
       </div>
+     <Pagination onChangePage={(number) => setCurrentPage(number)}/>
     </div>
   );
 }
