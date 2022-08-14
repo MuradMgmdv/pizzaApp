@@ -1,14 +1,14 @@
-import React from "react";
 
-
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { SearchContext } from "../App";
 
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
 import Sort from "../components/Sort";
 
-function Home({ searchValue }) {
+function Home() {
+  const { searchValue } = useContext(SearchContext);
   const [items, setItems] = useState([]);
   const [categoryId, setCategoryId] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,7 +56,7 @@ function Home({ searchValue }) {
           />
         ))}
       </div>
-     <Pagination onChangePage={(number) => setCurrentPage(number)}/>
+      <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </div>
   );
 }
