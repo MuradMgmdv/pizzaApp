@@ -2,6 +2,8 @@ import { useEffect, useState, useContext } from "react";
 import { SearchContext } from "../App";
 import { useDispatch, useSelector } from "react-redux";
 
+import axios from "axios";
+
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
 import PizzaBlock from "../components/PizzaBlock";
@@ -13,11 +15,9 @@ function Home() {
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
 
-
   const { searchValue } = useContext(SearchContext);
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -29,13 +29,12 @@ function Home() {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    fetch(
-      `https:62f4c3c7535c0c50e761b9aa.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        setItems(json);
-      });
+    axios
+      .get(
+        `https:62f4c3c7535c0c50e761b9aa.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+      )
+      .then((res) => setItems(res.data));
+
     window.scrollTo(0, 0); // чтобы страница начиналась сверху, это для верстки
   }, [categoryId, sortType, searchValue, currentPage]);
 
