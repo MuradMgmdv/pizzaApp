@@ -31,7 +31,8 @@ function Sort() {
 
     document.body.addEventListener("click", handleClickOutside);
 
-    return () => { // эта функция удалит обработчик события при размонтировании
+    return () => {
+      // эта функция удалит обработчик события при размонтировании
       document.body.removeEventListener("click", handleClickOutside);
     };
   }, []);

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 function Categories({ value, onChangeCategory }) {
   const categories = [
@@ -17,7 +17,7 @@ function Categories({ value, onChangeCategory }) {
           <li
             key={i}
             onClick={() => onChangeCategory(i)}
-            className={value === i ? "active" : ''}
+            className={value === i ? "active" : ""}
           >
             {categoryName}
           </li>
