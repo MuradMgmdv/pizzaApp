@@ -25,8 +25,9 @@ function Home() {
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
   const currentPage = useSelector((state) => state.filter.currentPage);
+  const searchValue = useSelector((state) => state.filter.searchValue);
 
-  const { searchValue } = useContext(SearchContext);
+
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
