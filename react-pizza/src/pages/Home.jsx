@@ -1,8 +1,7 @@
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useContext, useRef } from "react";
 import qs from "qs";
 import { SearchContext } from "../App";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
@@ -14,6 +13,7 @@ import {
   setFilters,
 } from "../redux/slices/filterSlice";
 import { useNavigate } from "react-router-dom";
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
 function Home() {
   const navigate = useNavigate();
@@ -21,12 +21,12 @@ function Home() {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
+  const items = useSelector((state) => state.pizza.items);
   const categoryId = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
   const currentPage = useSelector((state) => state.filter.currentPage);
 
   const { searchValue } = useContext(SearchContext);
-  const [items, setItems] = useState([]);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -36,22 +36,28 @@ function Home() {
     dispatch(setCurrentPage(number));
   };
 
-  const fetchPizzas = () => {
+  const getPizzas = async () => {
     const sortBy = sortType.replace("-", "");
     const order = sortType.includes("-") ? "asc" : "desc";
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    axios
-      .get(
-        `https:62f4c3c7535c0c50e761b9aa.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-      )
-      .then((res) => setItems(res.data));
+    dispatch(
+      fetchPizzas({
+        sortBy,
+        order,
+        category,
+        search,
+        currentPage,
+      })
+    );
   };
 
   // Если был первый рендер, то проверяем URL-параметры и сохраняем в редаксе
   useEffect(() => {
-    if (window.location.search) { // вытаскивает параметры из URL
+    if (window.location.search) {
+     
+      // вытаскивает параметры из URL
       const params = qs.parse(window.location.search.substring(1));
       const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
       dispatch(setFilters({ ...params, sort }));
@@ -64,7 +70,7 @@ function Home() {
     window.scrollTo(0, 0); // чтобы страница начиналась сверху, это для верстки
 
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
 
     isSearch.current = false;
