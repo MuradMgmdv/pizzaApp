@@ -1,17 +1,34 @@
-// import React from 'react'
-// import { useParams } from 'react-router-dom'
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+function FullPizza() {
+  const [pizza, setPizza] = useState()
+  const params = useParams();
 
-// function FullPizza() {
-//   const params = useParams()
-//   return (
-//     <div className='container' >
-//       <img src='' />
-//       <h2>{params.id}</h2>
-//       <p>fdjkhkdjhgfhgjkdfjgf</p>
-//       <h4>250 ₽</h4>
-//     </div>
-//   )
-// }
+  useEffect(() => {
+     async function fetchPizza() {
+     try {
+      const res = await axios.get("https://62f4c3c7535c0c50e761b9aa.mockapi.io/items/" + params.id)
+      setPizza(res.data)
+     } catch (error) {
+       alert('Ошибка при получении пицыы.')
+     }
+     }
 
-// export default FullPizza
+     fetchPizza()
+  }, []);
+  
+  if (!pizza) {
+   return 'Загрузка...'
+  }
 
+  return (
+    <div className="container">
+      <img src={pizza.imageUrl} /> 
+       <h2>{pizza.title}</h2>
+      <h4>{pizza.price} ₽</h4>
+    </div>
+  );
+}
+
+export default FullPizza;

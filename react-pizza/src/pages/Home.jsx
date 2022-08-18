@@ -1,7 +1,8 @@
-import { useEffect, useContext, useRef } from "react";
+import { useEffect,  useRef } from "react";
 import qs from "qs";
 import { SearchContext } from "../App";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
@@ -100,15 +101,15 @@ function Home() {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {items.map((obj) => (
-          <PizzaBlock
-            key={obj.id}
-            id={obj.id}
-            title={obj.title}
-            price={obj.price}
-            image={obj.imageUrl}
-            sizes={obj.sizes}
-            types={obj.types}
-          />
+         <Link key={obj.id} to={`/pizza/${obj.id}`}> <PizzaBlock
+         id={obj.id}
+         title={obj.title}
+         price={obj.price}
+         image={obj.imageUrl}
+         sizes={obj.sizes}
+         types={obj.types}
+       />
+       </Link>
         ))}
       </div>
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
