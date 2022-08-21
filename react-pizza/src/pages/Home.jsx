@@ -1,6 +1,5 @@
 import { useEffect,  useRef } from "react";
 import qs from "qs";
-import { SearchContext } from "../App";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 

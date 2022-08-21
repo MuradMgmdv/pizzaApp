@@ -4,8 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 
 
 
-function FullPizza() {
-  const [pizza, setPizza] = useState()
+const FullPizza: React.FC = () => {
+  const [pizza, setPizza] = useState<{
+    imageUrl: string,
+    title: string,
+    price: number
+
+  }>()
   const params = useParams();
   const navigate = useNavigate()
 
@@ -24,7 +29,7 @@ function FullPizza() {
   }, []);
   
   if (!pizza) {
-   return 'Загрузка...'
+   return <>Загрузка...</>
   }
 
   return (
