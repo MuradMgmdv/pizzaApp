@@ -2,7 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from '../Header'
 
-function MainLayout() {
+const MainLayout: React.FC = () => {
   return (
     // статика           <-----
     <div className="wrapper">

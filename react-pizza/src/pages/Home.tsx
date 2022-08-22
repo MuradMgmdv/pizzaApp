@@ -1,4 +1,4 @@
-import { useEffect,  useRef } from "react";
+import React, { useEffect,  useRef } from "react";
 import qs from "qs";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -15,7 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
-function Home() {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = useRef(false);
@@ -29,12 +29,12 @@ function Home() {
 
 
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
   };
 
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
 
   const getPizzas = async () => {
@@ -44,6 +44,7 @@ function Home() {
     const search = searchValue ? `&search=${searchValue}` : "";
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         sortBy,
         order,
@@ -99,7 +100,7 @@ function Home() {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {items.map((obj) => (
+        {items.map((obj: any) => (
          <Link key={obj.id} to={`/pizza/${obj.id}`}> <PizzaBlock
          id={obj.id}
          title={obj.title}
