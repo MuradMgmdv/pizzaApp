@@ -7,6 +7,8 @@ type ListItem = {
   sortProperty: string;
 }
 
+
+
 export const list: ListItem[] = [
   { name: "популярности (DESC)", sortProperty: "rating" },
   { name: "популярности (ASC)", sortProperty: "-rating" },
@@ -28,8 +30,11 @@ const Sort: React.FC = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (!event.path.includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      const _event = event as MouseEvent & {    // TS MouseEvent не содержит path и мы дописали path в MouseEvent
+        path: Node[];
+      }
+      if (sortRef.current && !_event.path.includes(sortRef.current)) {
         setOpen(false);
       }
     };
