@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type CartItem = {
+export type CartItem = {
   id: string;
   title: string;
   price: number;
   image: string;
-  type: number;
+  type: string;
   size: number;
   count: number;
 };
@@ -26,7 +26,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
 
-    addItems(state, action) {
+    addItems(state, action: PayloadAction<CartItem>) {
       const findItem = state.items.find((obj) => obj.id === action.payload.id);
 
       if (findItem) {
@@ -43,7 +43,7 @@ const cartSlice = createSlice({
       );
     },
 
-    minusItems(state, action) {
+    minusItems(state, action: PayloadAction<string>) {
       const findItem = state.items.find((obj) => obj.id === action.payload);
 
       if (findItem) {
@@ -51,7 +51,7 @@ const cartSlice = createSlice({
       }
     },
 
-    removeItems(state, action) {
+    removeItems(state, action: PayloadAction<string>) {
       state.items = state.items.filter((obj) => obj.id !== action.payload);
     },
 
