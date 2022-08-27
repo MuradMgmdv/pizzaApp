@@ -1,7 +1,6 @@
 import React, { useEffect,  useRef } from "react";
 import qs from "qs";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
@@ -13,7 +12,7 @@ import {
   setFilters,
 } from "../redux/slices/filterSlice";
 import { useNavigate } from "react-router-dom";
-import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import { fetchPizzas, SearchPizzaParams } from "../redux/slices/pizzaSlice";
 import { RootState, useAppDispatch } from "../redux/store";
 
 const Home: React.FC = () => {
@@ -50,7 +49,7 @@ const Home: React.FC = () => {
         order,
         category,
         search,
-        currentPage,
+        currentPage: String(currentPage),
       })
     );
   };
@@ -58,9 +57,15 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (window.location.search) {
      
-      const params = qs.parse(window.location.search.substring(1));
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
-      dispatch(setFilters({ ...params, sort }));
+      const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams
+      const sort = list.find((obj) => obj.sortProperty === params.sortBy);
+     
+      dispatch(setFilters({ 
+        searchValue: params.search,
+        categoryId: Number(params.category),
+        currentPage: Number(params.currentPage),
+        sort: sort || list[0],
+       }));
       isSearch.current = true;
     }
   }, []);
@@ -97,15 +102,16 @@ const Home: React.FC = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {items.map((obj: any) => (
-         <Link key={obj.id} to={`/pizza/${obj.id}`}> <PizzaBlock
+       <PizzaBlock
          id={obj.id}
          title={obj.title}
          price={obj.price}
          image={obj.imageUrl}
          sizes={obj.sizes}
          types={obj.types}
+         rating={obj.rating}
        />
-       </Link>
+     
         ))}
       </div>
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />

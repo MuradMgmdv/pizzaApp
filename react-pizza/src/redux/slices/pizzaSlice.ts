@@ -20,9 +20,16 @@ const initialState: PizzaSliceState = {
   items: [],
 };
 
-type FetchPizzasArgs = Record<string, string> // Record указывает то что все ключи и значения строки
+export type SearchPizzaParams = {
+  sortBy: string;
+  order: string;
+  category: string;
+  search: string;
+  currentPage: string;
+}
 
-export const fetchPizzas = createAsyncThunk<Pizza[], FetchPizzasArgs> ("pizza/fetchPizzasStatus", async (params) => {
+
+export const fetchPizzas = createAsyncThunk<Pizza[], SearchPizzaParams> ("pizza/fetchPizzasStatus", async (params) => {
   const { sortBy, order, category, search, currentPage } = params;
   const res = await axios.get<Pizza[]>(
     `https:62f4c3c7535c0c50e761b9aa.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
