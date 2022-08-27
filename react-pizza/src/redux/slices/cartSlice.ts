@@ -1,6 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+type CartItem = {
+  id: string;
+  title: string;
+  price: number;
+  image: string;
+  type: number;
+  size: number;
+  count: number;
+};
+
+
+interface CartSliceState {
+  totalPrice: number;
+  items: CartItem[];
+}
+
+const initialState: CartSliceState = {
   totalPrice: 0,
   items: [],
 };
@@ -9,13 +25,7 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    //  ----------------------------- обычное добавление
-    // addItems(state, action) {
-    //   state.items.push(action.payload);
-    //   state.totalPrice = state.items.reduce((sum, obj) => obj.price + sum, 0)
-    // },
 
-    // ----------------------------- добавление в редакс без дублирования id
     addItems(state, action) {
       const findItem = state.items.find((obj) => obj.id === action.payload.id);
 
