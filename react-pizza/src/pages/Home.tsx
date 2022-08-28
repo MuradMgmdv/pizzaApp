@@ -102,7 +102,7 @@ const Home: React.FC = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {items.map((obj: any) => (
-       <PizzaBlock
+       <PizzaBlock key={obj.id}
          id={obj.id}
          title={obj.title}
          price={obj.price}
