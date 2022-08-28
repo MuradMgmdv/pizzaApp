@@ -91,7 +91,7 @@ const Home: React.FC = () => {
     }
     isMounted.current = true;
   }, [categoryId, sortType, currentPage]);
-
+   
   return (
     <div className="container">
       <div className="content__top">
