@@ -1,4 +1,4 @@
-import React, { useEffect,  useRef } from "react";
+import React, { useCallback, useEffect,  useRef } from "react";
 import qs from "qs";
 import { useSelector } from "react-redux";
 
@@ -29,9 +29,9 @@ const Home: React.FC = () => {
 
 
 
-  const onChangeCategory = (id: number) => {
+  const onChangeCategory = useCallback((id: number) => {
     dispatch(setCategoryId(id));
-  };
+  }, []);
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
